@@ -33,3 +33,34 @@ function check_win()
  for e in all(poachers) do if e.alive then any_alive=true end end
  if all_freed and (not any_alive) then state="win" end
 end
+
+debug=true
+
+function draw_debug()
+ if not debug then return end
+
+ camera(0,0)
+
+ print("x:"..player.x,90,2,7)
+ print("y:"..player.y,90,10,7)
+ print("vx:"..player.vx,90,18,7)
+ print("vy:"..player.vy,90,26,7)
+
+ print("state:"..state,90,34,7)
+ print("poachers:"..#poachers,90,42,7)
+ print("drops:"..#drops,90,50,7)
+
+ camera(camx,0)
+end
+
+function draw_ui()
+ camera(0,0)
+
+ print("hp:"..player.hp,2,2,0)
+ print("saved:"..saved,2,10,0)
+ print("commod:"..commod,2,18,0)
+
+ draw_debug()
+
+ camera(camx,0)
+end
