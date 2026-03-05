@@ -17,7 +17,7 @@ function update_drops()
   d.vy+=0.2
   d.y+=d.vy
 
-  -- temp floor (same row as our test spawns)
+  -- temp floor stop (same row as test spawns)
   local floor_y=15*8-4
   if d.y>floor_y then
    d.y=floor_y
@@ -37,5 +37,6 @@ end
 function draw_drops()
  for d in all(drops) do
   rectfill(d.x,d.y,d.x+d.w,d.y+d.h,9)
+  if debug then rect(d.x,d.y,d.x+d.w,d.y+d.h,11) end
  end
 end
