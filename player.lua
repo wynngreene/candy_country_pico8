@@ -5,14 +5,24 @@ move_a=0.35
 max_vx=1.65
 
 function init_player()
- player={x=24,y=24,w=7,h=7,vx=0,vy=0,face=1,on_ground=false,hp=10,inv=0,atk_t=0}
+ player={
+  x=24,y=24,w=7,h=7,
+  vx=0,vy=0,
+  face=1,
+  on_ground=false,
+  hp=10,
+  inv=0,
+  atk_t=0
+ }
 end
 
 function update_player()
  local p=player
+
  if p.inv>0 then p.inv-=1 end
  if p.atk_t>0 then p.atk_t-=1 end
 
+ -- left/right
  local ax=0
  if btn(0) then ax=-move_a p.face=-1 end
  if btn(1) then ax= move_a p.face= 1 end
@@ -35,6 +45,7 @@ function update_player()
   end
  end
 
+ -- gravity
  p.vy+=grav
  p.vy=clamp(p.vy,-6,3)
 
@@ -88,11 +99,29 @@ end
 
 function draw_player()
  local p=player
+
+ -- blink on invincibility
  if p.inv>0 and (p.inv%6<3) then return end
+
  rectfill(p.x,p.y,p.x+p.w,p.y+p.h,8)
+
+ -- facing marker
+ if p.face==1 then
+  pset(p.x+p.w, p.y+3, 7)
+ else
+  pset(p.x, p.y+3, 7)
+ end
+
+ -- optional: show hitboxes when debug is on
+ if debug then
+  rect(p.x,p.y,p.x+p.w,p.y+p.h,11)
+ end
+
  if p.atk_t>0 then
   local hb=attack_box()
-  rect(hb.x,hb.y,hb.x+hb.w,hb.y+hb.h,10)
+  if debug then
+   rect(hb.x,hb.y,hb.x+hb.w,hb.y+hb.h,10)
+  end
  end
 end
 
