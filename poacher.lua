@@ -12,6 +12,7 @@ end
 
 function update_poachers()
  local p=player
+
  for e in all(poachers) do
   if e.alive then
    if e.stun>0 then
@@ -19,6 +20,7 @@ function update_poachers()
    else
     local nx=e.x + e.v*e.dir
     local aheadx=(e.dir==1) and (nx+e.w+1) or (nx-1)
+
     if solid_at(aheadx,e.y) or solid_at(aheadx,e.y+e.h) then
      e.dir=-e.dir
     else
@@ -26,6 +28,7 @@ function update_poachers()
     end
    end
 
+   -- contact damage
    if p.inv<=0 and aabb(p,e) then
     p.hp-=1
     p.inv=30
@@ -42,17 +45,24 @@ function draw_poachers()
   if e.alive then
    rectfill(e.x,e.y,e.x+e.w,e.y+e.h,2)
    pset(e.x+3,e.y+1,8)
+
+   if debug then
+    rect(e.x,e.y,e.x+e.w,e.y+e.h,11)
+    print("hp:"..e.hp, e.x-2, e.y-8, 7)
+   end
   end
  end
 end
 
 function try_hit_poachers()
  local hb=attack_box()
+
  for e in all(poachers) do
   if e.alive and aabb(hb,e) then
    e.hp-=1
    e.stun=10
    e.x+=player.face*6
+
    if e.hp<=0 then
     e.alive=false
     add_drop(e.x+3,e.y,1)
