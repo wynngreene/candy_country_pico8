@@ -21,3 +21,8 @@ function clamp(v,a,b)
  if v>b then return b end
  return v
 end
+
+-- format number to 1 decimal without heavy string ops
+function fmt1(n)
+ return flr(n*10)/10
+end
