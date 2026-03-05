@@ -12,8 +12,14 @@ function _init()
 end
 
 function _update()
+ -- debug toggle (UP)
+ if btnp(2) then
+  debug=not debug
+ end
+
  if state=="title" then
   if btnp(4) or btnp(5) then state="play" end
+
  elseif state=="play" then
   update_world()
   update_player()
@@ -22,6 +28,7 @@ function _update()
   update_drops()
   update_ui()
   check_win()
+
  elseif state=="win" then
   if btnp(4) or btnp(5) then _init() end
  end
